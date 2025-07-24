@@ -9,7 +9,7 @@ const LoginPage = () => {
       <div className="w-[800px] bg-white rounded-lg p-12 flex flex-col gap-8">
         {/* Header */}
         <div className="flex flex-col gap-3">
-          <span className="text-2xl font-bold">Login</span>
+          <span className="text-2xl font-bold">Log in to Manage</span>
           <p className="text-xs font-semibold w-[80%]">
             Welcome to the Log in screen, where you can securely access your
             account and explore all that our platform has to offer
