@@ -69,10 +69,13 @@ const Sidebar = () => {
           <UserPlus size={16} />
           Add new borrower
         </button>
-        <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-white">
+        <Link
+          to="/"
+          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-white"
+        >
           <LogOut size={16} />
           Log out
-        </button>
+        </Link>
 
         {/* Premium card */}
         <div className="mt-2 p-4 bg-white rounded-2xl text-center">

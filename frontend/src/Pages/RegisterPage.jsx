@@ -114,7 +114,7 @@ const LoginPage = () => {
             type="button"
             className="bg-indigo-400 hover:bg-indigo-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
-            LOGIN
+            REGISTER
           </button>
 
           <span className="text-center">
