@@ -24,28 +24,28 @@ const Sidebar = () => {
         {/* Navigation Links */}
         <nav className="flex flex-col gap-4 text-sm">
           <SidebarLink
-            to="/"
+            to="/admin"
             icon={<BarChart2 size={18} />}
             label="Dashboard"
             active
           />
           <SidebarLink
-            to="/cleared"
+            to="/admin/cleared"
             icon={<CheckCircle size={18} />}
             label="All Cleared"
           />
           <SidebarLink
-            to="/borrowers"
+            to="/admin/borrowers"
             icon={<Users size={18} />}
             label="Borrowers List"
           />
           <SidebarLink
-            to="/messages"
+            to="/admin/messages"
             icon={<MessageSquare size={18} />}
             label="Messages"
           />
           <SidebarLink
-            to="/settings"
+            to="/admin/settings"
             icon={<Settings size={18} />}
             label="Settings"
           />
