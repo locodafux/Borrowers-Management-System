@@ -119,7 +119,7 @@ const LoginPage = () => {
 
           <span className="text-center">
             Already have an account?{" "}
-            <Link to="/" className="text-blue-700">
+            <Link to="/" className="text-blue-500 hover:text-blue-700">
               Log in
             </Link>
           </span>
