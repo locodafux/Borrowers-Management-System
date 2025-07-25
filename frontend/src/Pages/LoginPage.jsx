@@ -64,12 +64,12 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <button
-            type="button"
+          <Link
+            to="/admin"
             className="bg-indigo-400 hover:bg-indigo-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
             LOGIN
-          </button>
+          </Link>
 
           <span className="text-center">
             Don't have an account?{" "}
