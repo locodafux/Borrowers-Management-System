@@ -5,6 +5,8 @@ import AdminLayout from "./Pages/Admin/AdminLayout";
 import Dashboard from "./Pages/Admin/Dashboard/Index";
 import Cleared from "./Pages/Admin/Cleared/Index";
 import Borrowers from "./Pages/Admin/Borrowers/Index";
+import Messages from "./Pages/Admin/Messages/Index";
+import Settings from "./Pages/Admin/Settings/Index";
 
 function App() {
   return (
@@ -17,7 +19,8 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="cleared" element={<Cleared />} />
           <Route path="borrowers" element={<Borrowers />} />
-          {/* <Route path="settings" element={<Settings />} /> */}
+          <Route path="messages" element={<Messages />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
     </Router>

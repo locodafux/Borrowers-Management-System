@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   BarChart2,
   CheckCircle,
@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 
 const Sidebar = () => {
+  const location = useLocation(); // 👈 Hook to get current URL path
+
   return (
     <aside className="w-64 min-h-screen bg-[#ece6fb] p-6 flex flex-col justify-between">
       {/* Top Section */}
@@ -27,34 +29,37 @@ const Sidebar = () => {
             to="/admin"
             icon={<BarChart2 size={18} />}
             label="Dashboard"
-            active
+            currentPath={location.pathname}
           />
           <SidebarLink
             to="/admin/cleared"
             icon={<CheckCircle size={18} />}
             label="All Cleared"
+            currentPath={location.pathname}
           />
           <SidebarLink
             to="/admin/borrowers"
             icon={<Users size={18} />}
             label="Borrowers List"
+            currentPath={location.pathname}
           />
           <SidebarLink
             to="/admin/messages"
             icon={<MessageSquare size={18} />}
             label="Messages"
+            currentPath={location.pathname}
           />
           <SidebarLink
             to="/admin/settings"
             icon={<Settings size={18} />}
             label="Settings"
+            currentPath={location.pathname}
           />
         </nav>
       </div>
 
       {/* Bottom Section */}
       <div className="flex flex-col gap-4">
-        {/* Profile */}
         <div className="flex items-center gap-3 p-2 bg-white rounded-lg">
           <img
             src="https://randomuser.me/api/portraits/men/32.jpg"
@@ -64,11 +69,11 @@ const Sidebar = () => {
           <span className="text-sm font-medium">Ayo Richard</span>
         </div>
 
-        {/* Actions */}
         <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-white">
           <UserPlus size={16} />
           Add new borrower
         </button>
+
         <Link
           to="/"
           className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-white"
@@ -77,7 +82,6 @@ const Sidebar = () => {
           Log out
         </Link>
 
-        {/* Premium card */}
         <div className="mt-2 p-4 bg-white rounded-2xl text-center">
           <div className="flex justify-center mb-2 -space-x-2">
             <img
@@ -108,13 +112,14 @@ const Sidebar = () => {
   );
 };
 
-// Helper component for sidebar links
-const SidebarLink = ({ to, icon, label, active }) => {
+// Helper component
+const SidebarLink = ({ to, icon, label, currentPath }) => {
+  const isActive = currentPath === to;
   return (
     <Link
       to={to}
       className={`flex items-center gap-3 px-3 py-2 rounded-lg ${
-        active
+        isActive
           ? "bg-purple-300 text-white"
           : "text-gray-700 hover:bg-purple-200 hover:text-white"
       }`}
