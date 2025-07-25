@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import LoginPage from "./Pages/LoginPage";
-import RegisterPage from "./Pages/RegisterPage";
 
-function App() {
+const AdminLayout = () => {
   return (
     <Router>
       {/* <nav>
@@ -14,6 +12,6 @@ function App() {
       </Routes>
     </Router>
   );
-}
+};
 
-export default App;
+export default AdminLayout;
