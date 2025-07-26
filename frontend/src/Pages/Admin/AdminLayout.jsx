@@ -2,19 +2,20 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Components/Sidebar";
 import TopBar from "./components/TopBar";
+
 const AdminLayout = () => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar />
 
-      {/* Main content */}
-      <div className="flex-1">
+      {/* Main content area */}
+      <div className="flex-1 flex flex-col">
         {/* TopBar */}
         <TopBar />
 
-        {/* Nested pages go here */}
-        <div className="p-4">
+        {/* Scrollable content area */}
+        <div className="flex-1 overflow-y-auto">
           <Outlet />
         </div>
       </div>

@@ -14,7 +14,7 @@ const Sidebar = () => {
   const location = useLocation(); // 👈 Hook to get current URL path
 
   return (
-    <aside className="w-64 min-h-screen bg-[#ece6fb] p-6 flex flex-col justify-between">
+    <aside className="w-64 h-screen bg-[#ece6fb] p-6 flex flex-col justify-between">
       {/* Top Section */}
       <div>
         {/* Logo */}
