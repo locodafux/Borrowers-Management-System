@@ -1,13 +1,22 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Components/Sidebar";
-
+import TopBar from "./components/TopBar";
 const AdminLayout = () => {
   return (
-    <div className="flex">
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
       <Sidebar />
 
-      <div className="flex-1 p-6 bg-gray-100">
-        <Outlet /> {/* This is where nested admin pages render */}
+      {/* Main content */}
+      <div className="flex-1">
+        {/* TopBar */}
+        <TopBar />
+
+        {/* Nested pages go here */}
+        <div className="p-4">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
