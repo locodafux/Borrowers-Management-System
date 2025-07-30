@@ -7,6 +7,7 @@ import Cleared from "./Pages/Admin/Cleared/Index";
 import Borrowers from "./Pages/Admin/Borrowers/Index";
 import Messages from "./Pages/Admin/Messages/Index";
 import Settings from "./Pages/Admin/Settings/Index";
+import AddBorrower from "./Pages/Admin/AddBorrower/Index";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="borrowers" element={<Borrowers />} />
           <Route path="messages" element={<Messages />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="addBorrower" element={<AddBorrower />} />
         </Route>
       </Routes>
     </Router>

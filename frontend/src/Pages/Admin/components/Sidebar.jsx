@@ -69,10 +69,13 @@ const Sidebar = () => {
           <span className="text-sm font-medium">Ayo Richard</span>
         </div>
 
-        <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-white">
+        <Link
+          to="/admin/addBorrower"
+          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-white"
+        >
           <UserPlus size={16} />
           Add new borrower
-        </button>
+        </Link>
 
         <Link
           to="/"
