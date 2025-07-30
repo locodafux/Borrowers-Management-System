@@ -202,8 +202,6 @@ const Borrowers = () => {
             </div>
           ))}
         </div>
-        {/* --- */}
-        ### Pagination Section
         {/* Adjusted for mobile stacking */}
         <div className="flex flex-col sm:flex-row justify-between items-center mt-4 text-sm text-gray-600 gap-3 sm:gap-0">
           <div className="flex items-center gap-1">
