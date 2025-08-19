@@ -1,10 +1,39 @@
 import React, { useState } from "react";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline"; // Heroicons
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { BrowserRouter as Router, Link } from "react-router-dom";
+import axios from "axios";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRetypePassword, setShowRetypePassword] = useState(false);
+
+  // form states
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [retypePassword, setRetypePassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleRegister = async () => {
+    if (password !== retypePassword) {
+      setMessage("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5000/users", {
+        email,
+        username,
+        password,
+      });
+
+      setMessage("✅ User registered successfully!");
+      console.log("User created:", response.data);
+    } catch (error) {
+      console.error(error);
+      setMessage("❌ Registration failed.");
+    }
+  };
 
   return (
     <div className="w-screen h-screen bg-[#e7e8ff] flex justify-center items-center">
@@ -26,7 +55,10 @@ const LoginPage = () => {
             <input
               type="email"
               id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Enter email"
               required
             />
@@ -42,7 +74,10 @@ const LoginPage = () => {
             <input
               type="text"
               id="username"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Enter username"
               required
             />
@@ -59,7 +94,10 @@ const LoginPage = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                           focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5"
                 placeholder="•••••••••"
                 required
               />
@@ -67,7 +105,6 @@ const LoginPage = () => {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
-                aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? (
                   <EyeSlashIcon className="w-5 h-5" />
@@ -89,7 +126,10 @@ const LoginPage = () => {
               <input
                 type={showRetypePassword ? "text" : "password"}
                 id="retype-password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5"
+                value={retypePassword}
+                onChange={(e) => setRetypePassword(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                           focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5"
                 placeholder="•••••••••"
                 required
               />
@@ -97,9 +137,6 @@ const LoginPage = () => {
                 type="button"
                 onClick={() => setShowRetypePassword(!showRetypePassword)}
                 className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700"
-                aria-label={
-                  showRetypePassword ? "Hide password" : "Show password"
-                }
               >
                 {showRetypePassword ? (
                   <EyeSlashIcon className="w-5 h-5" />
@@ -112,10 +149,15 @@ const LoginPage = () => {
 
           <button
             type="button"
+            onClick={handleRegister}
             className="bg-indigo-400 hover:bg-indigo-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
             REGISTER
           </button>
+
+          {message && (
+            <p className="text-center text-sm text-red-500">{message}</p>
+          )}
 
           <span className="text-center">
             Already have an account?{" "}
@@ -129,4 +171,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

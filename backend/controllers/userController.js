@@ -11,23 +11,23 @@ const getAllUsers = async (req, res, next) => {
 };
 
 const addUser = async (req, res, next) => {
-  const { name, email } = req.body;
+  const { username, email, password } = req.body;
 
-  if (!name || !email) {
-    return next(new ApiError(400, "Name and email are required"));
+  if (!username || !email || !password) {
+    return next(new ApiError(400, "All fields are required"));
   }
 
   try {
     const result = await pool.query(
-      "INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *",
-      [name, email]
+      "INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING *",
+      [email, username, password]
     );
     res.status(201).json({ success: true, data: result.rows[0] });
   } catch (err) {
     if (err.code === "23505") {
       return next(new ApiError(409, "Email already exists"));
     }
-    next(err); // Pass any other error to global handler
+    next(err);
   }
 };
 
