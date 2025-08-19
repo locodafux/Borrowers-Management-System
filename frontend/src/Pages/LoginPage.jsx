@@ -17,7 +17,7 @@ const LoginPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/users/login",
+        "/users/login",
         {
           username,
           password,
