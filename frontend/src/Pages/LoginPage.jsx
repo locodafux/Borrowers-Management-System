@@ -1,9 +1,42 @@
 import React, { useState } from "react";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline"; // Heroicons
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/users/login",
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log("Login success:", response.data);
+
+      navigate("/admin");
+    } catch (err) {
+      console.error(err);
+      setError(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
+    }
+  };
 
   return (
     <div className="w-screen h-screen bg-[#e7e8ff] flex justify-center items-center">
@@ -17,7 +50,7 @@ const LoginPage = () => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleLogin}>
           <div>
             <label
               htmlFor="username"
@@ -28,7 +61,10 @@ const LoginPage = () => {
             <input
               type="text"
               id="username"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                         focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Enter username"
               required
             />
@@ -45,7 +81,10 @@ const LoginPage = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                           focus:ring-blue-500 focus:border-blue-500 block w-full pr-10 p-2.5"
                 placeholder="•••••••••"
                 required
               />
@@ -64,12 +103,19 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <Link
-            to="/admin"
-            className="bg-indigo-400 hover:bg-indigo-500 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          {error && (
+            <p className="text-red-500 text-sm text-center font-medium">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="bg-indigo-400 hover:bg-indigo-500 text-white font-medium 
+                       rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
             LOGIN
-          </Link>
+          </button>
 
           <span className="text-center">
             Don't have an account?{" "}
@@ -77,7 +123,7 @@ const LoginPage = () => {
               Sign up
             </Link>
           </span>
-        </div>
+        </form>
       </div>
     </div>
   );
