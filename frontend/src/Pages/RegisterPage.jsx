@@ -21,7 +21,7 @@ const RegisterPage = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/users", {
+      const response = await axios.post("/users", {
         email,
         username,
         password,

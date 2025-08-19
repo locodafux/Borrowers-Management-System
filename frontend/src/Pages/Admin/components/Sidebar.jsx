@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   BarChart2,
   CheckCircle,
@@ -9,10 +9,19 @@ import {
   UserPlus,
   LogOut,
 } from "lucide-react";
+import axios from "axios";
 
 const Sidebar = () => {
   const location = useLocation(); // 👈 Hook to get current URL path
-
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await axios.post("/users/logout", {}, { withCredentials: true });
+      navigate("/"); // redirect to login page
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
   return (
     <aside className="w-64 h-screen bg-[#ece6fb] p-6 flex flex-col justify-between">
       {/* Top Section */}
@@ -77,13 +86,13 @@ const Sidebar = () => {
           Add new borrower
         </Link>
 
-        <Link
-          to="/"
+        <button
+          onClick={() => handleLogout()}
           className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 border border-gray-300 rounded-lg hover:bg-white"
         >
           <LogOut size={16} />
           Log out
-        </Link>
+        </button>
 
         <div className="mt-2 p-4 bg-white rounded-2xl text-center">
           <div className="flex justify-center mb-2 -space-x-2">

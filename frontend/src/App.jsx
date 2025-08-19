@@ -8,21 +8,26 @@ import Borrowers from "./Pages/Admin/Borrowers/Index";
 import Messages from "./Pages/Admin/Messages/Index";
 import Settings from "./Pages/Admin/Settings/Index";
 import AddBorrower from "./Pages/Admin/AddBorrower/Index";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Public */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="cleared" element={<Cleared />} />
-          <Route path="borrowers" element={<Borrowers />} />
-          <Route path="messages" element={<Messages />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="addBorrower" element={<AddBorrower />} />
+        {/* Protected */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="cleared" element={<Cleared />} />
+            <Route path="borrowers" element={<Borrowers />} />
+            <Route path="messages" element={<Messages />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="addBorrower" element={<AddBorrower />} />
+          </Route>
         </Route>
       </Routes>
     </Router>
