@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Settings = () => {
   // State for Profile Settings
   const [username, setUsername] = useState("Ayn Richard");
   const [isUsernameEditing, setIsUsernameEditing] = useState(false);
 
-  // State for Account Settings
   const [email, setEmail] = useState("richarddebbyaynn@gmail.com");
   const [isEmailEditing, setIsEmailEditing] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -13,15 +12,13 @@ const Settings = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleUsernameChange = () => {
-    // In a real application, you would send this to an API
     alert(`Username changed to: ${username}`);
-    setIsUsernameEditing(false); // Disable editing after change
+    setIsUsernameEditing(false);
   };
 
   const handleEmailChange = () => {
-    // In a real application, you would send this to an API
     alert(`Email changed to: ${email}`);
-    setIsEmailEditing(false); // Disable editing after change
+    setIsEmailEditing(false);
   };
 
   const handlePasswordUpdate = () => {
@@ -29,7 +26,6 @@ const Settings = () => {
       alert("New password and confirm password do not match.");
       return;
     }
-    // In a real application, you would send currentPassword, newPassword to an API
     alert("Password updated successfully!");
     setCurrentPassword("");
     setNewPassword("");
