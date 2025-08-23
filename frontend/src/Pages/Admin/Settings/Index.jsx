@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import axios from "axios";
 const Settings = () => {
   // State for Profile Settings
   const [username, setUsername] = useState("Ayn Richard");
@@ -10,6 +10,19 @@ const Settings = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get("/users/me", {
+        withCredentials: true,
+      });
+
+      setEmail(res.data?.user?.email || "");
+      setUsername(res.data?.user?.username || "");
+    };
+
+    fetchUser();
+  }, []);
 
   const handleUsernameChange = () => {
     alert(`Username changed to: ${username}`);
