@@ -82,9 +82,9 @@ const logoutUser = (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 };
 
-const updateUser = async (req, res, next) => {
+const updateProfile = async (req, res, next) => {
   try {
-    const { email, username, password } = req.body;
+    const { email, username } = req.body;
 
     let fields = [];
     let values = [];
@@ -98,13 +98,6 @@ const updateUser = async (req, res, next) => {
     if (username) {
       fields.push(`username = $${i++}`);
       values.push(username);
-    }
-
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
-      fields.push(`password = $${i++}`);
-      values.push(hashedPassword);
     }
 
     if (fields.length === 0) {
@@ -124,11 +117,54 @@ const updateUser = async (req, res, next) => {
 
     const result = await pool.query(query, values);
 
-    if (result.rows.length === 0) {
+    res.json({ success: true, user: result.rows[0] });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// --- Update Password ---
+const updatePassword = async (req, res, next) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Both current and new passwords are required",
+      });
+    }
+
+    // Fetch user
+    const userResult = await pool.query(
+      "SELECT password FROM users WHERE id = $1",
+      [req.user.userId]
+    );
+    if (userResult.rows.length === 0) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
+
+    // Verify old password
+    const validPassword = await bcrypt.compare(
+      currentPassword,
+      userResult.rows[0].password
+    );
+    if (!validPassword) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Current password is incorrect" });
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const result = await pool.query(
+      `UPDATE users SET password = $1 WHERE id = $2 RETURNING id, username, email`,
+      [hashedPassword, req.user.userId]
+    );
 
     res.json({ success: true, user: result.rows[0] });
   } catch (err) {
@@ -136,4 +172,18 @@ const updateUser = async (req, res, next) => {
   }
 };
 
+// --- Delegator ---
+const updateUser = async (req, res, next) => {
+  try {
+    const { newPassword } = req.body;
+
+    if (newPassword) {
+      return updatePassword(req, res, next);
+    }
+
+    return updateProfile(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
 export { getAllUsers, addUser, loginUser, logoutUser, updateUser };

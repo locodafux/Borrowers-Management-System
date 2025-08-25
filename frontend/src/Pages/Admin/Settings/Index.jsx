@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 const Settings = () => {
-  // State for Profile Settings
   const [username, setUsername] = useState("Ayn Richard");
   const [isUsernameEditing, setIsUsernameEditing] = useState(false);
 
@@ -12,26 +11,28 @@ const Settings = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const res = await axios.get("/users/me", {
-        withCredentials: true,
-      });
-
-      setEmail(res.data?.user?.email || "");
-      setUsername(res.data?.user?.username || "");
-    };
-
     fetchUser();
   }, []);
 
-  const handleUsernameChange = () => {
-    alert(`Username changed to: ${username}`);
+  const fetchUser = async () => {
+    const res = await axios.get("/users/me", {
+      withCredentials: true,
+    });
+    setEmail(res.data?.user?.email || "");
+    setUsername(res.data?.user?.username || "");
+  };
+
+  const handleUsernameChange = async () => {
     setIsUsernameEditing(false);
+    const res = await axios.put(
+      "/users/me",
+      { username },
+      { withCredentials: true }
+    );
   };
 
   const handleEmailChange = async () => {
     try {
-      alert(`Email changed to: ${email}`);
       setIsEmailEditing(false);
 
       const res = await axios.put(
@@ -46,15 +47,19 @@ const Settings = () => {
     }
   };
 
-  const handlePasswordUpdate = () => {
+  const handlePasswordUpdate = async () => {
     if (newPassword !== confirmPassword) {
-      alert("New password and confirm password do not match.");
       return;
     }
-    alert("Password updated successfully!");
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
+
+    const res = await axios.put(
+      "/users/me",
+      { currentPassword, newPassword },
+      { withCredentials: true }
+    );
   };
 
   return (
