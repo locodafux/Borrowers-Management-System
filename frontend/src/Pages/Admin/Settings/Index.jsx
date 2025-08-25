@@ -29,9 +29,21 @@ const Settings = () => {
     setIsUsernameEditing(false);
   };
 
-  const handleEmailChange = () => {
-    alert(`Email changed to: ${email}`);
-    setIsEmailEditing(false);
+  const handleEmailChange = async () => {
+    try {
+      alert(`Email changed to: ${email}`);
+      setIsEmailEditing(false);
+
+      const res = await axios.put(
+        "/users/me",
+        { email },
+        { withCredentials: true }
+      );
+      console.log(res.data);
+      setEmail(res.data?.user?.email || "");
+    } catch (error) {
+      console.error("Error updating email:", error);
+    }
   };
 
   const handlePasswordUpdate = () => {

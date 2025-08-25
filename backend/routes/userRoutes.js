@@ -4,6 +4,7 @@ import {
   addUser,
   loginUser,
   logoutUser,
+  updateUser,
 } from "../controllers/userController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
@@ -18,5 +19,6 @@ router.get("/", authMiddleware, getAllUsers);
 router.get("/me", authMiddleware, (req, res) => {
   res.json({ success: true, user: req.user });
 });
+router.put("/me", authMiddleware, updateUser);
 
 export default router;

@@ -1,7 +1,7 @@
 // src/components/ProtectedRoute.jsx
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 const ProtectedRoute = () => {
   const [auth, setAuth] = useState(null); // null = still checking, true/false = result
 

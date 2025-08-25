@@ -82,4 +82,58 @@ const logoutUser = (req, res) => {
   res.json({ success: true, message: "Logged out successfully" });
 };
 
-export { getAllUsers, addUser, loginUser, logoutUser };
+const updateUser = async (req, res, next) => {
+  try {
+    const { email, username, password } = req.body;
+
+    let fields = [];
+    let values = [];
+    let i = 1;
+
+    if (email) {
+      fields.push(`email = $${i++}`);
+      values.push(email);
+    }
+
+    if (username) {
+      fields.push(`username = $${i++}`);
+      values.push(username);
+    }
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      fields.push(`password = $${i++}`);
+      values.push(hashedPassword);
+    }
+
+    if (fields.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No fields to update" });
+    }
+
+    values.push(req.user.userId);
+
+    const query = `
+      UPDATE users
+      SET ${fields.join(", ")}
+      WHERE id = $${i}
+      RETURNING id, username, email
+    `;
+
+    const result = await pool.query(query, values);
+
+    if (result.rows.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res.json({ success: true, user: result.rows[0] });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export { getAllUsers, addUser, loginUser, logoutUser, updateUser };
